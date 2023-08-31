@@ -3,18 +3,18 @@ import css from 'components/Modal/Modal.module.css';
 import PropTypes from 'prop-types';
 
 function Modal({ image, closeModal }) {
-  const handlePressOnESC = e => {
-    if (e.code === 'Escape') {
-      closeModal();
-    }
-  };
-
   useEffect(() => {
+    const handlePressOnESC = e => {
+      if (e.code === 'Escape') {
+        closeModal();
+      }
+    };
+
     window.addEventListener('keydown', handlePressOnESC);
     return () => {
       window.removeEventListener('keydown', handlePressOnESC);
     };
-  });
+  }, [closeModal]);
 
   return (
     <div className={css.Overlay} onClick={closeModal}>

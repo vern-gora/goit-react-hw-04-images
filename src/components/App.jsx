@@ -56,8 +56,10 @@ function App() {
             setNotFound(false);
           }
 
-          setGallery(prevGallery => [...prevGallery, ...galleryData.hits]);
-          setTotalImages(galleryData.totalHits);
+          if (!notFound) {
+            setGallery(prevGallery => [...prevGallery, ...galleryData.hits]);
+            setTotalImages(galleryData.totalHits);
+          }
         } else {
           setNotFound(true);
         }
