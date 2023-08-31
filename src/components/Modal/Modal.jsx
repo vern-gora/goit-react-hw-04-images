@@ -1,36 +1,72 @@
+import React, { useEffect } from 'react';
 import css from 'components/Modal/Modal.module.css';
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class Modal extends Component {
-  static propTypes = {
-    image: PropTypes.string.isRequired,
-    closeModal: PropTypes.func.isRequired,
-  };
-  componentDidMount() {
-    window.addEventListener('keydown', this.handlePressOnESC);
-  }
-
-  handlePressOnESC = e => {
+function Modal({ image, closeModal }) {
+  const handlePressOnESC = e => {
     if (e.code === 'Escape') {
-      this.props.closeModal();
+      closeModal();
     }
   };
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handlePressOnESC);
-  }
+  useEffect(() => {
+    window.addEventListener('keydown', handlePressOnESC);
+    return () => {
+      window.removeEventListener('keydown', handlePressOnESC);
+    };
+  });
 
-  render() {
-    const { image, closeModal } = this.props;
-    return (
-      <div className={css.Overlay} onClick={closeModal}>
-        <div className={css.Modal}>
-          <img src={image} alt="" />
-        </div>
+  return (
+    <div className={css.Overlay} onClick={closeModal}>
+      <div className={css.Modal}>
+        <img src={image} alt="" />
       </div>
-    );
-  }
+    </div>
+  );
 }
 
+Modal.propTypes = {
+  image: PropTypes.string.isRequired,
+  closeModal: PropTypes.func.isRequired,
+};
+
 export default Modal;
+
+// class Modal extends Component {
+//   static propTypes = {
+//     image: PropTypes.string.isRequired,
+//     closeModal: PropTypes.func.isRequired,
+//   };
+
+//   componentDidMount() {
+//     window.addEventListener('keydown', this.handlePressOnESC);
+//   }
+
+//   handlePressOnESC = e => {
+//     if (e.code === 'Escape') {
+//       this.props.closeModal();
+//     }
+//   };
+
+//   componentWillUnmount() {
+//     window.removeEventListener('keydown', this.handlePressOnESC);
+//   }
+
+//   render() {
+//     const { image, closeModal } = this.props;
+//     return (
+//       <div className={css.Overlay} onClick={closeModal}>
+//         <div className={css.Modal}>
+//           <img src={image} alt="" />
+//         </div>
+//       </div>
+//     );
+//   }
+// }
+
+// Modal.propTypes = {
+//   image: PropTypes.string.isRequired,
+//   closeModal: PropTypes.func.isRequired,
+// };
+
+// export default Modal;
